@@ -1,0 +1,115 @@
+name: Prepare Script.pdf
+
+on:
+  pull_request:
+    types: [closed]
+    paths:
+      - '**.tex'
+      - '.github/workflows/compile_pdf.yaml'
+  push:
+    branches:
+      - "**"
+    paths:
+      - '**.tex'
+      - '.github/workflows/compile_pdf.yaml'
+
+jobs:
+  build-latex:
+    outputs:
+      new-tag: ${{ steps.bump_version.outputs.NEW_TAG }}
+      latest-tag: ${{ steps.get_latest_tag.outputs.LATEST_TAG }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get latest tag
+        id: get_latest_tag
+        run: |
+          git fetch --tags
+          latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "LATEST_TAG=$latest_tag" >> $GITHUB_OUTPUT
+
+      - name: Bump version
+        id: bump_version
+        run: |
+          IFS='.' read -ra VERSION_PARTS <<< "${LATEST_TAG#v}"
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          PATCH=$((VERSION_PARTS[2] + 1))
+          NEW_TAG="v$MAJOR.$MINOR.$PATCH"
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_OUTPUT
+        env:
+          LATEST_TAG: ${{ steps.get_latest_tag.outputs.LATEST_TAG }}
+
+      - name: Compile LaTeX document
+        id: compile
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: Script.tex
+          latexmk_use_lualatex: true
+          args: -pdf -interaction=nonstopmode -f
+
+      - name: Upload logs on failure
+        if: failure() && steps.compile.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: latex-logs
+          path: |
+            *.log
+            *.aux
+            *.out
+
+      - name: Upload PDF file
+        uses: actions/upload-artifact@v4
+        with:
+          name: Script
+          path: Script.pdf
+
+  create-prerelease:
+    needs:
+      - build-latex
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download Script
+        uses: actions/download-artifact@v4
+        with:
+          name: Script
+          path: .
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.build-latex.outputs.new-tag }}
+          release_name: Release ${{ needs.build-latex.outputs.new-tag }}
+          draft: false
+          prerelease: true
+
+      - name: Update Latest Tag
+        run: |
+          git push origin :refs/tags/latest || true
+          git tag -f latest
+          git push origin latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./Script.pdf
+          asset_name: Script.pdf
+          asset_content_type: application/pdf

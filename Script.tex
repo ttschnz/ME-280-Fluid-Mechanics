@@ -1,0 +1,57 @@
+\documentclass[a4paper,11pt]{book}
+\usepackage[top=3.5cm, bottom=3.5cm, left=3.5cm, right=3.5cm]{geometry}\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{theorem}
+\usepackage{textcomp}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{fancybox}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\leftmark}
+\fancyhead[LO]{\rightmark}
+
+\renewcommand{\chaptermark}[1]{\markboth{Chapter \thechapter: #1}{}}
+
+\graphicspath{{Sketches/}}
+
+\title{Fluid Mechanics}
+\author{Course of Tobias Schneider\\Trancription by Tim Tschanz}
+\date{\today}
+
+
+\begin{document}
+\begin{titlepage}
+    \centering
+    \includegraphics[width=\textwidth]{Cover_Image.png}
+    {\huge\bfseries Fluid Mechanics\par}
+    {
+        \vspace{1cm}
+        {\large Course of Tobias Schneider\par}
+        {\large Transcription by Tim Tschanz\par}
+        \vspace{1cm}
+    }
+    {\large \today\par}
+\end{titlepage}
+
+\tableofcontents
+
+\include{Chapter1.tex}
+\include{Chapter2.tex}
+\end{document}
