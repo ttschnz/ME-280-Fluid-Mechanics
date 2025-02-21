@@ -25,25 +25,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get latest tag
-        id: get_latest_tag
-        run: |
-          git fetch --tags
-          latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
-          echo "LATEST_TAG=$latest_tag" >> $GITHUB_OUTPUT
-
-      - name: Bump version
-        id: bump_version
-        run: |
-          IFS='.' read -ra VERSION_PARTS <<< "${LATEST_TAG#v}"
-          MAJOR=${VERSION_PARTS[0]}
-          MINOR=${VERSION_PARTS[1]}
-          PATCH=$((VERSION_PARTS[2] + 1))
-          NEW_TAG="v$MAJOR.$MINOR.$PATCH"
-          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_OUTPUT
-        env:
-          LATEST_TAG: ${{ steps.get_latest_tag.outputs.LATEST_TAG }}
-
       - name: Compile LaTeX document
         id: compile
         uses: xu-cheng/latex-action@v3
@@ -83,6 +64,41 @@ jobs:
         with:
           name: Script
           path: .
+  
+      - name: Bump version
+        id: bump_version
+        run: |
+          git fetch --tags
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+
+          # Get the current DIN week number
+          KW=$(date +%V)
+          
+          # Map DIN week to custom ranges
+          if [ "$KW" -ge 8 ] && [ "$KW" -le 16 ]; then
+            WEEK=$((10#$KW - 7))
+          elif [ "$KW" -ge 18 ] && [ "$KW" -le 22 ]; then
+            WEEK=$((10#$KW - 8))
+          elif [ "$KW" -eq 17 ]; then
+            WEEK=9 # spring break
+          else
+            WEEK="?"
+          fi
+          TITLE="Script Week $WEEK"
+          echo "title=$TITLE" >> $GITHUB_OUTPUT
+          IFS='.' read -ra VERSION_PARTS <<< "${LATEST_TAG#v}"
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          # if the week corresponds to the minor version, increment the patch version
+          if [ "$WEEK" == "$MINOR" ]; then
+            PATCH=$((VERSION_PARTS[2] + 1))
+          else
+            # otherwise, increment the minor version and reset the patch version
+            PATCH=0
+            MINOR=$((VERSION_PARTS[1] + 1))
+          fi
+          NEW_TAG="v$MAJOR.$MINOR.$PATCH"
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_OUTPUT
 
       - name: Create Release
         id: create_release
@@ -90,19 +106,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ needs.build-latex.outputs.new-tag }}
-          release_name: Release ${{ needs.build-latex.outputs.new-tag }}
+          tag_name: ${{ steps.bump_version.outputs.NEW_TAG }}
+          release_name: ${{ steps.bump_version.outputs.TITLE }} (${{ steps.bump_version.outputs.NEW_TAG }})
           draft: false
           prerelease: true
-
-      - name: Update Latest Tag
-        run: |
-          git push origin :refs/tags/latest || true
-          git tag -f latest
-          git push origin latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
