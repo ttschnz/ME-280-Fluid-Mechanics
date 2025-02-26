@@ -43,14 +43,22 @@ To quantify the response of a fluid to a shear stress, we need to have a measure
 
 \subsubsection{No Slip Condition, Shear Strain Rate}
 \begin{center}
-\shadowbox{At a solid boundary a fluid will have zero velocity relative to the boundary.}
+\shadowbox{At a solid boundary a fluid will have zero velocity relative to the boundary.} 
 \end{center}
+
 \begin{figure}[H]
-    \begin{center}
-    \includegraphics[width=0.4\textwidth]{NoSlip.png}
-    \caption{Two plates have a fluid in between. After applying a pure shear force, the top plate moves with velocity $U$. This moves our magically marked atoms on the top by $dx=Udt$.}
-    \end{center}
+	\begin{minipage}{0.45\textwidth}   
+		\centering
+		\includegraphics[width=\textwidth]{NoSlip3D.png}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{NoSlip.png}
+	\end{minipage}
+	\caption{Two plates have a fluid in between. After applying a pure shear force, the top plate moves with velocity $U$. This moves our magically marked atoms on the top by $dx=Udt$.}
 \end{figure}
+
 We can pose the tangent of $d\beta$ to find the deplacement at a height $h$. For small deplacements we can find the change in angle over time to be the \textbf{shear strain rate} $\dot \gamma$
 $$
 \tan d\beta = \frac {dx}h \approx d\beta \qquad d\beta << 1\implies \frac {d\beta}{dt} = \frac{dx}{hdt}=\frac Uh =: \dot \gamma\qquad [\dot \gamma] = s^{-1}
@@ -64,7 +72,7 @@ $$
 How can we relate the equations of shear stress and shear strain rate? 
 We define as \textbf{newtonian fluids} as all the fluids, where the relationship between the applied shear stress is proportional to the shear strain rate (i.e. how much does it respond):
 \begin{equation}
-\tau = \frac FA \propto \frac {dU}{dy}\implies \tau = \mu \frac{dU}{dy}\label{eq:newtonian_fl}
+\tau = \frac FA \propto \frac {dU}{dy}\implies \boxed{\tau = \mu \frac{dU}{dy}}\label{eq:newtonian_fl}
 \end{equation}
 
 \shadowbox{For a newtonian fluid, the more force I apply, the faster it moves (linearly).}
@@ -99,9 +107,8 @@ At normal conditions:
         \hline
         Water    & $1.1\cdot 10^{-3}$                          \\
         \hline
-        "Oil"    & $0.4$                       
+        "Oil"\footnote{This is a rather dubious value. Oils have an immense range of viscosities, therefore it is difficult to give a value just for "Oils" here.}    & $0.4$                       
         \end{tabular}
-
     \end{minipage}
     \hfill
     \begin{minipage}{0.45\textwidth}
