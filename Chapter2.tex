@@ -86,7 +86,7 @@ We can solve the differential equation in \eqref{eq:fluid_at_rest} to find the p
 	\label{eq:pressure_difference}
 \end{equation}
 Where at $(*)$ we assumed the gravitational acceleration to be constant.
-\subsubsection{Incompressible Fluid}
+\subsection{Incompressible Fluid}
 If $\rho$ is constant, a fluid is considered to be an incompressible fluid. The equation for pressure difference \eqref{eq:pressure_difference} is simple to solve:
 \begin{equation*}
 	\Delta p = -g\rho \Delta z
@@ -97,5 +97,164 @@ Choosing a coordinate system that goes down with $h$ (height below reference sur
 	\label{eq:pressure_incompressible}
 \end{equation}
 \paragraph{Remark}
-
 Remember that $p$ is absolute pressure, relative to vacuum. Compared to gage pressure, which is relative to a reference pressure such as the atmospheric pressure. Gage pressure in the above equation \eqref{eq:pressure_incompressible} would be $p-p_h = \rho g h$
+
+\subsection{Compressible Fluid}
+To think of compressible fluids (i.e. $d\rho \ne 0$) such as ideal gases, we recall the ideal gas law: $p=\rho R T\implies \rho = p/{RT}$. Combining with the z component of \eqref{eq:fluid_at_rest} we know:
+\begin{equation*}
+	\begin{split}
+		\frac{dp}{dz} &= -\frac{p}{RT}g\\
+		\frac 1p \,dp &= -\frac g{RT} dz\qquad (\ast)\\
+		\ln(p) &= -\frac g{RT}z + C\\
+		p(z) &= C_1\exp\left(-\frac{g}{Rt}z\right)
+	\end{split}
+\end{equation*}
+We assumed at $(\ast)$ that we are at an isothermal atmosphere ($T=const$). To find the integration constant, we pose that at $z=0$ we have a pressure of $p_0$. This yields the \textbf{pressure of ideal gas for isothermal atmosphere}:
+\begin{equation}
+	\boxed{p(z)=p_0e^{-\frac g{RT}z }}
+	\label{eq:pressure_compressible_isothermal}
+\end{equation}
+
+Instead of assuming an isothermal atmosphere, we can assume a linear regression of temperature as a function of height, which is accurate up to a certain height (see \ref{fig:temperatureatmosphere}).
+\begin{figure}
+	\centering
+	\includegraphics[width=0.4\linewidth]{Sketches/TemperatureAtmosphere}
+	\caption{The temperature gradient in our atmosphere (Munson et al, Fluid Dynamics)}
+	\label{fig:temperatureatmosphere}
+\end{figure}
+This leads us, with the \textbf{Standard Atmosphere} of $T(z) = T_0-\beta z$ to the following result of the \textbf{pressure of ideal gas for non-isothermal atmosphere}:
+\begin{equation}
+	\boxed{p(z)=p_0(1-\frac{\beta z}{T_0})^{\frac{g}{R\beta}}}
+\end{equation}
+
+
+\paragraph{Notes}
+The units of pressure are Newton per square-meters, yielding Pascal. $1\ \mathrm{atm}$ is equivalent to $1.01\cdot 10^5\ \mathrm{Pa}$ and $760\ \mathrm{mmHg}$.
+
+\section{Forces on Submerged Surfaces}
+
+\subsection{Flat Surfaces}
+\textit{(Munson 2.8)}\hfill\\
+
+We consider a flat surface submerged in an incompressible fluid at an angle $\theta$. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{Sketches/ForceOnFlatSurface}
+	\caption{}
+	\label{fig:forceonflatsurface}
+\end{figure}
+
+We can immediately say:
+\begin{equation*}
+	p = \rho gh, \qquad h = \sin\theta
+\end{equation*}
+We integrate over the surface:
+\begin{equation*}
+	\begin{split}
+		F & =\int_A \rho gh \,dA\\
+		&=\int_A \rho gy\sin\theta\, dA\\
+		&=\rho g \sin\theta \int_A y\, dA\\
+		&= \rho g \sin\theta A y_c\\
+	\end{split}
+\end{equation*}
+We recognized the integral as the centroid\footnote{the "average" point, defined as $A^{-1}\int_A y\,dA$. Common values can be found in \ref{fig:geometricalpropertiesshapes}} multiplied by the area at $(\ast)$. Recognizing that $\sin\theta y_c = h_c$, and $\rho g h_c = p_c$. This yields
+\begin{equation}
+	\boxed{F=p_c A}
+\end{equation}
+Which makes intuitive sense: The magnitude of the resultant force is given by the pressure at the centroid times the area. It is independent of the orientation ($\theta$ in this case).
+
+To find the point of application of the resultant, we want the distributed force to generate the same moment as the resultant force. We choose the origin of our coordinate system to calculate the moments:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{Sketches/ForceOnFlatSurface_Moment}
+	\caption{}
+	\label{fig:forceonflatsurfacemoment}
+\end{figure}
+
+\begin{equation*}
+	\begin{split}
+	dF &= \rho gh\,dA = \rho g y\sin\theta dA\\ 
+	dM &= y\,dF = \rho\sin\theta y^2\, dA\\
+	 M &= \rho g\sin\theta \int_A y^2\, dA\\
+	 &= \rho g\sin\theta I_x
+	\end{split}
+\end{equation*}
+Using Steiner's Theorem ($I_x=I_{xc}+Ay_c^2$), we can translate the moment of inertia to the centroid axis and write the final condition for the point of application of the resultant force:
+\begin{equation*}
+	\begin{split}
+		M &= \rho g \sin\theta (I_{xc}+Ay_c^2) = F y_r = \rho g y_c\sin\theta A y_r\\
+		\implies &\boxed{y_r = y_c + \frac{I_{xc}}{y_c A }}
+	\end{split}
+\end{equation*}
+From this equation, the application point is always bellow the centroid.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Sketches/GeometricalPropertiesShapes}
+	\caption{Geometrical properties of common shapes (Munson et al, Fluid Dynamics)}
+	\label{fig:geometricalpropertiesshapes}
+\end{figure}
+
+\subsection{Curved Surfaces}
+\textit{(Munson 2.10)}\hfill\\
+
+We decompose the resultant force $\vec F_R$ into its components $\hat i, \hat j$. For both components we integrate over the area, approaching each infinitesimal area $dA$ as a flat surface.
+
+\begin{equation*}
+	\begin{split}
+		\vec F_R &= F_H\hat i + F_V \hat j\\
+		dF &= pdA
+	\end{split}
+\end{equation*}
+Through geometry, we find that $F_H$ is the force acting on the vertical projection of the surface:
+\begin{equation*}
+	dF_H = pdA\cos\theta = pdA_V\implies F_H=\int pdA_V
+\end{equation*}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Sketches/ForceOnCurvedSurface}
+	\label{fig:forceoncurvedsurface}
+\end{figure}
+
+Similarly, we find that for the vertical component, the force acting vertically on the surface is equal to the weight of the water column above surface:
+\begin{equation*}
+	dF_V=pdA\sin\theta = \rho ghdA\sin\theta \rho g dV \implies F_V = \int_A g\rho dV 
+\end{equation*}
+
+
+\section{Example Problems}
+\subsection{Force on a Tank Sidewall}
+Consider a tank sidewall. What is the total resultant force on the surface of the sidewall?
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{Sketches/ExampleTankSidewall}
+\end{figure}
+
+The vertical component:
+\begin{equation*}
+	F_V = \int_AdF_V = \left[hRw+\frac{\pi R^2}{4}w\right] \rho g
+\end{equation*}
+horizontal:
+\begin{equation*}
+	\begin{split}
+		F_H &= \int_A dF_H \\
+		&=\text{force on vertical projection} \\
+		&= \text{Area * pressure at centroid} \\
+		&=  p_cA_V = \rho g\left(h+\frac R2 \right)R_w
+	\end{split}
+\end{equation*}
+
+
+\subsection{Archimedes' Principle}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Sketches/Archimedes}
+	\label{fig:archimedes}
+\end{figure}
+$$
+F_{net} = F_{bottom} - F_{top} = \text{weight of the displaced volume}
+$$
+
+
+
