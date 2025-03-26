@@ -54,7 +54,7 @@ which can be plugged into the equation \eqref{eq:diffusion_mass_conservation}:
 		\right .
 	\end{split}
 \end{equation*}
-For an unbiased random walk we pose $p=0.5$ which cancels the drift velocity. This makes the above turn into the well known Diffusion Equation:
+For an unbiased random walk we pose $p=0.5$ which cancels the drift velocity. This makes the above turn into the well known \textbf{Diffusion Equation}:
 \begin{equation}
 	\boxed{\frac{\partial n}{\partial t} = D\frac{\partial ^2 n}{\partial x}}
 	\label{eq:diffusion_1d}
@@ -115,9 +115,9 @@ Plugging in Fick's law ($\vec j = -D\nabla c$), we get
 	\frac{\partial}{\partial t}c = \nabla (D\nabla c)
 \end{equation*}
 
-For $D=const$ we get the diffusion equation from before:
+For $D=const$ we get the \textbf{diffusion equation} from before:
 \begin{equation}
-	\boxed{\frac{\partial}{\partial t}c = D \nabla^2 c}
+	\boxed{\frac{\partial c}{\partial t} = D \nabla^2 c}
 \end{equation}
 
 \paragraph{Remarks}
@@ -244,11 +244,102 @@ We pose a partial differential equations the following with boundary conditions 
 	\qquad c(x=0,t)=c(x=L,t)=0\qquad c(x,t=0)=c_0(x)
 \end{equation*}
 Which is a linear and homogenous PDE  with homogeneous boundary conditions.
-Therefore If $c_1(x,t)$ and $c_2(x,t)$ are two solutions then $(c_1+c_2)(x,t)$ and $(\beta c_1)(x,t), \beta \in \mathbb R$ are also solutions\footnote{This allows us to look for simple solutions and then construct a sum of the simpler solutions that satisfies the initial conditions.}
+Therefore if $c_1(x,t)$ and $c_2(x,t)$ are two solutions then $(c_1+c_2)(x,t)$ and $(\beta c_1)(x,t), \beta \in \mathbb R$ are also solutions\footnote{This allows us to look for simple solutions and then construct a sum of the simpler solutions that satisfies the initial conditions.}. Note that this only works for homogeneous boundary conditions. 
+The approach is based on linearity: 
 
+\paragraph{Step 1: Write a General Solution} At first, we write a general solution of the PDE with boundary conditions as a linear combination of so-called \textit{base solutions}:
+\begin{equation*}
+	c(x,t)  = \sum_{n=1}^\infty A_n\varphi_n(x,t)
+\end{equation*}
+where $\varphi_n$ are simple \textit{base solutions} and $A_n$ are \textit{expansion coefficients}.
 
+\paragraph{Step 2: Determine the Expansion Coefficients} As a second step, we want to determine $\{A_n\}$ such that $c(x,t)$ satisfies the initial condition:
+\begin{equation*}
+	c(x,t=0)=c_0(x)
+\end{equation*}
 
+We start by trying to find any solution, we call \textit{base solution} $\varphi$. We try this by applying separation of variables, assuming $\varphi(x,t)=X(x)T(t)$\footnote{There is no guarantee that we can find a solution of this type. It is an attempt: If I try this, will i find a solution?}. We insert this function into our PDE:
+\begin{equation*}
+	\begin{split}
+		\frac{\partial \varphi}{\partial t} &= D \frac{\partial^2 \varphi}{\partial x^2}\\
+		X(x)\frac{dT(t)}{dt}&=DT(t)\frac{d^2 X(x)}{dx^2}\\
+		X(x)T'(t)&=DT(t)X''(x)\\
+		\frac 1D \frac{T'(t)}{T(t)} &= \frac{X''(x)}{X(x)} \stackrel{(*)}{=}-\lambda\\
+	\end{split}
+\end{equation*}
+Since both sides are independent of each other (left hand side is a function of time, the right hand side is a function of position), it must be equal to a constant $-\lambda$ at $(*)$
+The above yields two ordinary differential equations, coupled by an unknown $\lambda$:
+\begin{equation*}
+		T'(t)+ D\lambda T(t) = 0
+		\qquad
+		X''(t) + \lambda X(t) = 0
+\end{equation*}
+The boundary conditions of before still apply:
+\begin{equation*}
+	\begin{cases}
+		\varphi(x=0, t) = 0\\
+		\varphi(x=L, t) = 0\\
+	\end{cases}\implies
+	\begin{cases}
+		X(0)=X(L) = 0
+	\end{cases}
+\end{equation*}
+Since the conditions only apply to the spatial equation, we start by solving for $X(t)$, then try to apply our findings to the temporal problem.
 
+We solve $X''(t)+\lambda X(t) = 0$, depending on the sign of $\lambda$ as follows:
+\begin{equation*}
+	\begin{split}
+		\text{Case 1: $\lambda < 0$}: \qquad 
+		X(x) & = \alpha_1 e^{{\sqrt-\lambda}x}+ \alpha_2 e^{-\sqrt{-\lambda}x}\\
+		 	 & \stackrel{(*)}{=} 0\\
+		\text{Case 2: $\lambda = 0$}: \qquad X(x) &= \alpha_1 x + \alpha_2\\
+		 	 & \stackrel{(**)}{=} 0\\
+		\text{Case 3: $\lambda > 0$}: \qquad X(x) &= \alpha_1 \cos(\sqrt \lambda x) + \alpha_2 \sin(\sqrt \lambda x) \qquad \left | X(0) = 0 \implies \alpha_1 = 0\right .\\
+		X(L)&= \alpha_2 \sin(\sqrt \lambda L) = 0\text{ and }\alpha_2 \ne 0\Leftrightarrow \lambda = \left(\frac{\pi n}{L}\right)^2\\
+		X(x) &= \alpha_2 \sin\left(\frac{n\pi x}{L}\right)\qquad n \in \mathbb N
+	\end{split}
+\end{equation*}
+At $(*)$ we have reduced the two linearly non-independent solutions and know that $\alpha_1=\alpha_2= 0$, only the trivial solution $X(x)=0$ is found. At $(**)$ we applied the boundary conditions and found the same trivial solution.
+An infinite amount of solutions are found for the case where $\lambda > 0$.
+
+Spatial base solutions are those sine/cosine terms which are compatible with the boundary conditions. The boundary conditions determine the coupling constants $\lambda_n$, which we call the eigenvalues of our problem. We now apply this to the temporal problem for a $\lambda_n = \left(\frac{\pi n}{L}\right)^2$:
+\begin{equation*}
+	\begin{split}
+		T_n' &= -D\lambda_n T_n\\
+		T_n(T)&=\beta_n e^{-D\lambda_m t} = \beta_n e^{-D\left(\frac{\pi n}{L}\right) ^2 t}
+	\end{split}
+\end{equation*}
+We recognize the solution $T_n$ as a decaying exponential. The combined solution $\varphi$ can be expressed as:
+\begin{equation*}
+	\varphi_n(x,t) = e^{-D\left(\frac{\pi n}{L}\right) ^2 t} \sin\left(\frac{n\pi x}{L}\right)\qquad n \in \mathbb N\\
+\end{equation*}
+Through linearity, we were allowed to normalize the solutions and set $\alpha_n \cdot \beta_n = 1$.
+The general solution of the PDE that satisfy the boundary conditions can be expressed as:
+\begin{equation*}
+	c(x,t)= \sum_{n=1}^\infty A_n e^{-D\left(\frac{\pi n}{L}\right) ^2 t} \sin\left(\frac{n\pi x}{L}\right)
+\end{equation*}
+We now want to determine $\{A_n\}$ from the initial conditions. We need to satisfy:
+\begin{equation*}
+	c_0(x) = c(x,t=0) = \sum_{n=1}^\infty A_n \sin\left(\frac{n\pi x}{L}\right)
+\end{equation*}
+Multiplying with one base solution (e.g. $\sin\frac{\pi mx}{L}$ with some integer $m$) and then integrate in $x$:
+\begin{equation*}
+	\begin{split}
+		\int_0^L c_0(x)\sin\left(\frac{\pi m}{L}x \right) \,dx &= \sum_{n=1}^\infty A_n\int_0^L\sin\left(\frac{\pi n}{L} x \right)\sin\left(\frac{\pi m}{L} x \right)\,dx\\
+		&\stackrel{(*)}{=}  \sum_{n=1}^\infty A_n\begin{cases}
+			0 & n\ne m\\
+			L/2 & n=m
+		\end{cases}\\
+		& = A_n \frac L2\\
+		A_n & =\frac 2L \int_0^L c_0(x)\sin\left(\frac{\pi_n}Lx\right)\,dx
+	\end{split}
+\end{equation*}
+At $(*)$ we use the fact that the integral over a common multiple of a period of two sines or cosines with different frequencies yields 0. \footnote{This can be shown using the identity $\sin a \sin b = \frac 12(\cos(a-b)-\cos(a+b))$ over a full period.}
+
+Through Fourier's theorems, we know that any smooth initial condition satisfying my boundary conditions can be expressed as a sine, cosine or Fourier series, meaning we have the complete solution. For any $c_0(x)$, the complete solution is:
+\begin{equation}
+	\boxed{c(x,t) = \sum_{n=1}^\infty \underbrace{\left[ \frac 2L \int_0^L c_0(\tilde  x)\sin\left(\frac{\pi n}L\tilde x\right)\,d\tilde x\right]}_{\text{expansion coefficient of mode}} \underbrace{e^{-D\left(\frac{\pi n}{L}\right)^2x}}_{\text{time evolution}}\underbrace{\sin\left(\frac{\pi n}{L} x\right)}_{\text{spatial mode}}}
+\end{equation}
 \setcounter{chapter}{4}
 \renewcommand{\thechapter}{\arabic{chapter}}
 
