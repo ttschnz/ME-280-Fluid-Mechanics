@@ -4,14 +4,16 @@ on:
   pull_request:
     types: [closed]
     paths:
-      - '**.tex'
-      - '.github/workflows/compile_pdf.yaml'
+      - "**.tex"
+      - ".github/workflows/compile_pdf.yaml"
+      - "**.png"
   push:
     branches:
       - "**"
     paths:
-      - '**.tex'
-      - '.github/workflows/compile_pdf.yaml'
+      - "**.tex"
+      - ".github/workflows/compile_pdf.yaml"
+      - "**.png"
 
 jobs:
   build-latex:
@@ -64,7 +66,7 @@ jobs:
         with:
           name: Script
           path: .
-  
+
       - name: Bump version
         id: bump_version
         run: |
@@ -73,7 +75,7 @@ jobs:
 
           # Get the current DIN week number
           KW=$(date +%V)
-          
+
           # Map DIN week to custom ranges
           if [ "$KW" -ge 8 ] && [ "$KW" -le 16 ]; then
             WEEK=$((10#$KW - 7))
@@ -93,9 +95,9 @@ jobs:
           if [ "$WEEK" == "$MINOR" ]; then
             PATCH=$((VERSION_PARTS[2] + 1))
           else
-            # otherwise, increment the minor version and reset the patch version
+            # otherwise, increment the minor version to this week and reset the patch version
             PATCH=0
-            MINOR=$((VERSION_PARTS[1] + 1))
+            MINOR=$WEEK
           fi
           NEW_TAG="v$MAJOR.$MINOR.$PATCH"
           echo "NEW_TAG=$NEW_TAG" >> $GITHUB_OUTPUT
