@@ -367,9 +367,9 @@ We define $\tilde c$ as a superposition / linear combination of the unknown solu
 	\tilde c(x,t) := c(x,t) - c_f(x)
 \end{equation*}
 
-From this we know that $\tilde c$ will satisfy the diffusion equation. Furthermore, the boundary conditions for $\tilde c$ turn into:
+From this we know that $\tilde c$ will satisfy exactly the same diffusion equation. Furthermore, the boundary conditions for $\tilde c$ turn into homogenous boundary conditions:
 \begin{equation*}
-	\frac{\partial \tilde c}{\partial t} = D\frac{\partial ^2 \tilde c}{\partial t^2}\implies\begin{cases}
+	\frac{\partial \tilde c}{\partial t} = D\frac{\partial ^2 \tilde c}{\partial x^2}\implies\begin{cases}
 		\tilde c(x=0) = c(x=0)-c_f(x=0)=c_1-c_1=0\\
 		\tilde c(x=L) = c(x=L)-c_f(x=L)=c_2-c_2=0\\
 	\end{cases}
