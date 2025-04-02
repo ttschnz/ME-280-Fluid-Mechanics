@@ -189,10 +189,71 @@ We choose the streak line that goes though the origin at $t=0$. Knowing that str
 	\includegraphics[width=0.4\linewidth]{Sketches/SprinklerStreakLine}
 	\label{fig:sprinklerstreakline}
 \end{figure}
-Which is exactly what we would observe as a bystander.
+Which is exactly the droplet pattern that we would observe as a bystander.
 
+\section{Acceleration Field}
 
+In the Lagrangian sense, 
+\begin{equation*}
+	\vec a = \frac{d\vec V}{dt}=\lim_{\Delta t \to 0}\frac{\vec V(t+\Delta t)-\vec V(t)}{\Delta t}
+\end{equation*}
 
+In the Eularian sense\footnote{Note that the acceleration is $\frac{d\vec V}{dt}$, whereas $\frac{\partial \vec V}{\partial t}$ is only par of the acceleration. This is the moment we need to watch out for partial and total derivatives. In fluid dynamics, $\frac{d}{dt} =: \frac{D}{Dt}$ (known as the \enquote{substantial derivative}, \enquote{material derivative}, \enquote{Lagrangian derivative}, or \enquote{derivative following the fluid}) is used to make sure that it is no partial derivative.} ,
+\begin{equation*}
+	\begin{split}
+		\vec a &= \frac{d\vec V(r(t),t)}{dt} = \frac{d\vec V(x(t),y(t),z(t),t)}{dt} \\
+		&= 
+	\frac{\partial \vec V}{\partial x}\underbrace{\frac{dx}{dt}}_u + 
+	\frac{\partial \vec V}{\partial y}\underbrace{\frac{dy}{dt}}_v + 
+	\frac{\partial \vec V}{\partial z}\underbrace{\frac{dz}{dt}}_w + 
+	\frac{\partial \vec V}{\partial t}\\
+	&=(\vec V \cdot \nabla ) \vec V  + \frac{\partial \vec V}{\partial t}
+	\end{split}
+\end{equation*}
+The acceleration field expressed in the eularian velocity field can be therefore expressed as:
+\begin{equation*}
+	\vec a = \frac{D\vec V}{Dt} = \underbrace{\frac{\partial \vec V}{\partial t}}_{\substack{\text{local}\\\text{acceleration}}} + \underbrace{(\vec V \cdot \nabla)\vec V}_{\substack{\text{convective}\\\text{acceleration}}}
+\end{equation*}
+If the flow is steady, then \begin{equation*}
+	\frac{\partial \vec V}{\partial t} = 0
+\end{equation*}
 
+\subsection{Example: Diffuser (Munson Problem 4.31)}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{Sketches/Diffuser}
+	\label{fig:diffuser}
+\end{figure}
+We are given 
+\begin{equation*}
+	\vec V(x\hat i ,t ) = V_0(1-e^{-ct})\left(1-\frac xl\right)\hat i
+\end{equation*}
 
+This leads to a one-dimensional, unsteady differential equation
+\begin{equation*}
+	\begin{split}
+		u(x,t) &= V_0(1-e^{-ct})\left(1-\frac xl\right)\qquad v=w=0\\
+		\vec a & = a_x \hat i  = \left(
+		\frac{\partial u}{\partial t} + 
+		u\frac{\partial u}{\partial x} + 
+		v\frac{\partial u}{\partial y} + 
+		w\frac{\partial u}{\partial y} + 
+		\right)\hat i\\ &= V_0\left(1-\frac xl\right) \left(ce^{-ct}-\frac {V_0}L\left(1-e^{-ct}\right)^2\right)\hat i\\\\
+		t\to \infty &\implies\vec V \text{ steady}\\
+		& \implies \vec a  =-V_0\left(1-\frac xl\right)\frac {V_0}L\hat i
+	\end{split}
+\end{equation*}
+If we follow the particle, it has a high speed at first, then a slow speed at infinity. The local acceleration goes to zero due to steadiness, but the convective acceleration does not go to zero.
+
+\section{Control Volume and \enquote{System}}
+We defined \textit{system} as a collection of matter of fixed identity. For example dyed fluid elements. It has controlled mass. It is a Lagrangian concept, moving with the flow.
+
+The \textit{control volume} is the eularian counterpart: it is a fixed volume in space with a boundary and we observe what goes in and what goes out, though its boundary called \enquote{control surface}.
+
+The physical laws we care about, for example mass conservation is expressed in the Lagrangian concept ($dM/dt = 0$). Rewriting this for a control volume / for eularian concepts intuitively leads us to:
+\begin{equation*}
+	\left(\frac{dM}{dt}\right)_{cv} = \dot M_{in} - \dot M_{out}
+\end{equation*}
+
+What we want to know is the mathematical \enquote{conversion} between the Lagrangian system and Eularian control volume. This method exists and is called \textbf{Reynolds transport theorem}.
