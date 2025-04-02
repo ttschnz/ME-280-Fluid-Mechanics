@@ -340,7 +340,49 @@ Through Fourier's theorems, we know that any smooth initial condition satisfying
 \begin{equation}
 	\boxed{c(x,t) = \sum_{n=1}^\infty \underbrace{\left[ \frac 2L \int_0^L c_0(\tilde  x)\sin\left(\frac{\pi n}L\tilde x\right)\,d\tilde x\right]}_{\text{expansion coefficient of mode}} \underbrace{e^{-D\left(\frac{\pi n}{L}\right)^2x}}_{\text{time evolution}}\underbrace{\sin\left(\frac{\pi n}{L} x\right)}_{\text{spatial mode}}}
 \end{equation}
-\setcounter{chapter}{4}
+
+\subsubsection{Non-Homogeneous Boundary Conditions}
+If we want to solve the diffusion equation with non homogenous boundary conditions:
+\begin{equation*}
+	\frac{\partial c}{\partial t} = D\frac{\partial ^2 c}{\partial x^2}\qquad \begin{cases}
+		c(x=0,t) = c_1& \text{boundary condition}\\
+		c(x=L,t) = c_2& \text{boundary condition}\\
+		c(x,t=0) = c_0(x) & \text{initial condition}
+	\end{cases}
+\end{equation*}
+Similarly to the previous approach, we use multiple steps:
+
+\paragraph{Step A: Solve for Steady State} Let $c_f$ be the final concentration field:
+\begin{equation*}
+	c_f(x)=\lim_{t\to \infty} = c(x,t)
+\end{equation*}
+We know how to solve this, applying the boundary conditions of the problem:
+\begin{equation*}
+	0=\frac{\partial }{\partial t} c_f = D\frac{\partial ^2 c_f}{\partial x^2}\stackrel{\text{BC}}{\implies}c_f(x) = c_1 + \frac{c_2-c_1}{L}x
+\end{equation*}
+
+\paragraph{Step B: Finding a Transient Solution $\tilde c$}
+We define $\tilde c$ as a superposition / linear combination of the unknown solution $c$ and the known final position $c_f$:
+\begin{equation*}
+	\tilde c(x,t) := c(x,t) - c_f(x)
+\end{equation*}
+
+From this we know that $\tilde c$ will satisfy the diffusion equation. Furthermore, the boundary conditions for $\tilde c$ turn into:
+\begin{equation*}
+	\frac{\partial \tilde c}{\partial t} = D\frac{\partial ^2 \tilde c}{\partial t^2}\implies\begin{cases}
+		\tilde c(x=0) = c(x=0)-c_f(x=0)=c_1-c_1=0\\
+		\tilde c(x=L) = c(x=L)-c_f(x=L)=c_2-c_2=0\\
+	\end{cases}
+\end{equation*}
+
+\paragraph{Step C: Combine}
+From the definition of $\tilde c$, we know that 
+\begin{equation*}
+	c(x,t) = c_f(x) + \tilde c(x,t)
+\end{equation*}
+Plugging in the transient solution for $\tilde c$ and the final solution $c_f$ will yield the final form for $c(x,t)$.
+
+\setcounter{chapter}{3}
 \renewcommand{\thechapter}{\arabic{chapter}}
 
 
