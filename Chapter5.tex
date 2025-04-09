@@ -1,0 +1,39 @@
+\chapter{Control Volume Approach using RTT}
+
+Recall the three principal physical laws:
+\begin{itemize}
+	\setlength{\itemsep}{-5pt}
+	\item Mass conservation
+	\item Newton's \nth2 law
+	\item energy conservation
+\end{itemize}
+These are all expressed on systems, but we would like to apply them for control volumes. We can use RTT to do this.
+
+\section{Mass Conservation}
+The arbitrary quantity $B$ is the mass $M$. This implies that $b=1$. We plug $B=M$ into eq. \eqref{eq:rtt_final} and find:
+\begin{equation}
+	\begin{split}
+		\frac{dM_{sys}}{Dt} = \boxed{\frac{\partial}{\partial t}  \int_{cv} \rho dV + \int _{cs} \rho \vec v \cdot \hat n \,dA =0}\\
+	\end{split}
+	\label{eq:continuity}
+\end{equation}
+Which is the continuity equation. In words, this means:
+\begin{equation*}
+	\left(\substack{
+		\text{The rate of change}\\
+		\text{of the mass in the}\\
+		\text{coincident system}
+		}\right) = \left(\substack{
+		\text{The rate of change}\\
+		\text{in the coincident}\\
+		\text{control volume}
+		}\right) + \left(\substack{
+		\text{The net rate of flow}\\
+		\text{of mass through}\\
+		\text{the control surface}
+		}\right)
+\end{equation*}
+
+\section{Momentum: Newtons \nth{2} Law}
+
+\section{Energy Conservation}

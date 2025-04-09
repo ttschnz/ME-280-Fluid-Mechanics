@@ -257,3 +257,111 @@ The physical laws we care about, for example mass conservation is expressed in t
 \end{equation*}
 
 What we want to know is the mathematical \enquote{conversion} between the Lagrangian system and Eularian control volume. This method exists and is called \textbf{Reynolds transport theorem}.
+
+\section{Reynolds Transport Theorem (RTT)}
+
+\subsection{Preliminary}
+A formal derivation of the Reynolds Transport Theorem can be found in Munson 4.1.1. In this course, we focus on its applications and intuition behind it.
+
+\subsection{Derivation of Simple RTT}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{Sketches/RTTSystemCV}
+	\caption{}
+	\label{fig:rttsystemcv}
+\end{figure}
+
+at $t=t_0$, our system is coincident to the control volume CV ($\mathrm {SYS} =\mathrm{CV}$). $B$ is an extensive quantity (i.e. scaling with the size of the system), and $b = \frac BM$ is an intensive quantity (i.e. independent of the size of the system).
+
+We try to find a total value of $B$ inside the system and control volume in terms of $b$:
+\begin{equation*}
+	\begin{split}
+		B_{sys} &= \int_{sys} \rho b \,dV\\
+		B_{cv} &=\int_{cv} \rho b \,dV 
+	\end{split}
+\end{equation*}
+
+To write the rate of change in the system, we can write
+\begin{equation}
+	\frac{DB_{sys}}{Dt} = \frac{\partial B_{cv}}{\partial t} + \dot B_{out} - \dot B_{in}
+	\label{eq:rtt_rate_of_change}
+\end{equation}
+where $\dot B_{out,in}$ are the fluxes out and into the control volume. They can be expressed as
+\begin{equation*}
+	\begin{split}
+		\dot B_{in} &= b_{in}\dot M_{in}\stackrel{(*)}{=} b_{in}\rho_{in}v_{in}A_{in}\\
+		\dot B_{out} &= b_{out}\dot M_{out}\stackrel{(*)}{=} b_{out}\rho_{out}v_{out}A_{out}\\
+	\end{split}
+\end{equation*}
+At $(*)$ we use $\dot M_{in}=A_{in}\rho v_{in}$. is the product of the input area, density and velocity.
+
+The rate of change of $B$ with the system can be expressed by 
+\begin{equation*}
+	\boxed{\left(\frac{DB}{Dt}\right)_{sys} = \left(\frac{\partial B}{\partial t}\right)_{cv} + \left(b\rho v A\right)_{out}- \left(b\rho v A\right)_{in}}
+\end{equation*}
+This is a simple form of the RTT. The simplification we made, was a simplification about the flux term: the \textbf{inlet and outlet areas are flat and their velocities are constant}. To get a general equation, we need to further investigate the flux through the surfaces.
+
+\subsection{General RTT}
+The net mass flux though the surface $A$:
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{Sketches/RTTSystemArea}
+		\caption{}
+		\label{fig:rttsystemarea}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.3\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{Sketches/RTTSystemVolume}
+		\caption{}
+		\label{fig:rttsystemvolume}
+	\end{subfigure}
+	\caption{}
+	\label{fig:rttsystem}
+\end{figure}
+
+is expressed as 
+\begin{equation*}
+	\dot M = \int_A \rho \underbrace{v\cos\theta}_{\substack{\text{normal}\\\text{component}}} \,dA\implies \dot B = \int_A b\rho \vec v \cdot \hat n \,dA = \dot B_{out} - \dot B_{in}
+\end{equation*}
+where $\dot B$ is the net flux.
+
+This allows us to rewrite eq. \eqref{eq:rtt_rate_of_change} as:
+\begin{equation}
+	\boxed{\left(\frac{DB}{Dt}\right)_{sys} = \frac{\partial}{\partial t}\int_{cv} \rho b \,dV + \int_{cs} \rho b \vec v \cdot \hat n \,dA}
+	\label{eq:rtt_final}
+\end{equation}
+Which is the equation we can use to transform a system from the Eularian to the Lagrangian point of view and vice versa.
+\subsection{Notes}
+For a steady flow, the first integral in \eqref{eq:rtt_final} vanishes as it is not time dependant.
+
+\begin{equation*}
+	\left(\frac{DB}{Dt}\right)_{sys} = \int_{cs} \rho b \vec v \cdot \hat n \,dA 
+\end{equation*}
+
+
+A moving, but non-deforming (!!) control volume, we can use relative velocities:
+\begin{equation*}
+	\vec w = \vec v - \vec v_{cv}
+\end{equation*}
+
+If we integrate over a closed surface:
+\begin{equation*}
+	 \oint_{cs} \rho b \vec v \cdot \hat n \,dA 
+\end{equation*}
+we can often split it up
+
+
+
+
+
+
+
+
+
+
