@@ -122,15 +122,48 @@ We can come to the conclusion, that:
 \end{equation*}
 Where the loss of the system is: $\mathrm{loss}= \tilde u_{out}-\tilde u_{in} - q_{net,in}$. If the loss is zero, we arrive at the Bernoulli equation, which is with the assumption of no shear forces, thus no shaft work and no friction, thus no loss. This means, that the Bernoulli's equation is in fact equivalent to the energy conservation law if there were no losses.
 
-
-\section{Control Volumes}
-Munson treats fixed, non-deforming CVs (5.1.2), moving, non-deforming CVs (5.1.3), and deforming CVs (5.1.3).
-\subsection{Deforming Control Volumes}
-
-we define $\vec w = \vec v-\vec v_{cs}$ the absolute velocity of the control volume surface point: it is the relative velocity minus the local velocity of the control surface differential element.
+\newpage
+\section{Summary: Control Volume Approach}
+Lagrangian physical laws for a system want to be transformed are transferred using Reynolds Transport Theorem into eularian laws for control volumes:
 \begin{equation*}
-\left(\frac{DB}{Dt}\right)_{sys} = \frac{\partial}{\partial t}\int_{cv} \rho b \,dV + \int_{cs} \rho b \vec w \cdot \hat n \,dA
+	\left(\frac{DB}{Dt}\right)_{sys} = \frac{\partial}{\partial t} \int_{cv}\rho b\,dV + \int_{cs} \rho b \vec v \cdot \hat n \,dA\qquad b = \frac BM
 \end{equation*}
-
-The first integral can be non-zero, even if the flow is steady.
-
+The three basic laws turn into
+\begin{itemize}
+	\setlength{\itemsep}{-5pt}
+	\item \textbf{Mass Conservation $\rightarrow$ Continuity Equation} ($B=M\implies b=1$)
+	\begin{equation*}
+		\frac{\partial}{\partial t}\int_{cv}\rho\,dV + \int_{cs}\rho \vec v \cdot \hat n \,dA  = 0
+	\end{equation*}
+	\item \textbf{Newton's \nth{2} Law $\rightarrow$ Moment conservation} ($\vec B = M\vec v \implies \vec b = \vec v$)
+	\begin{equation*}
+		\frac{\partial}{\partial t}\int_{cv} \rho\vec v \,dV+\int_{cs} \rho\vec v(\vec v\cdot \hat n)\,dA = \sum \vec F_{ext}
+	\end{equation*}
+	\item \textbf{First Law of Thermodynamics $\rightarrow$ Energy Equation} ($B=E\implies b = e = \tilde u + \frac 12 v^2 + g z$)
+	\begin{equation*}
+		\frac{\partial}{\partial t}\int_{cv} e\rho dV + \int_{cs} \left(\tilde u + \frac 12 v^2 + gz + \frac{p}{\rho}\right)\rho \vec v \cdot \hat n\,dA = \dot Q_{net,in}+ \dot W_{shaft,in}
+	\end{equation*}
+\end{itemize}
+For many systems, we can simplify. We assume:
+\begin{itemize}
+	\setlength{\itemsep}{-5pt}
+	\item steady flow
+	\item one inlet / one outlet
+	\item flow uniform over full inlet / outlet
+\end{itemize}
+The above equations turn into:
+\begin{itemize}
+	\setlength{\itemsep}{-5pt}
+	\item \textbf{Continuity}
+	\begin{equation*}
+		\dot M_{in} = \dot M_{out} = \dot M
+	\end{equation*}
+	\item \textbf{Moment Conservation}
+	\begin{equation*}
+		\sum \vec F =\dot M\left(\vec v_{out}-\vec v_{in}\right)
+	\end{equation*}
+	\item \textbf{Energy Equation}
+	\begin{equation*}
+		\left(\tilde u + \frac 12 v^2 + gz + \frac p\rho\right)_{out} \dot M - \left(\tilde u + \frac 12 v^2 + gz + \frac p\rho\right)_{in} \dot M =\dot Q_{in} + \dot W_{shaft,in}
+	\end{equation*}
+\end{itemize}
