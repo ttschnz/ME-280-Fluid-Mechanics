@@ -7,10 +7,10 @@ Recall the three principal physical laws:
 	\item Newton's \nth2 law
 	\item energy conservation
 \end{itemize}
-These are all expressed on systems, but we would like to apply them for control volumes. We can use RTT to do this.
+These are all expressed on systems, but we would like to apply them for control volumes. We can use RTT eq. \eqref{eq:rtt_final} to do this.
 
 \section{Mass Conservation}
-The arbitrary quantity $B$ is the mass $M$. This implies that $b=1$. We plug $B=M$ into eq. \eqref{eq:rtt_final} and find:
+For mass conservation, the arbitrary quantity $B$ in the RTT is the mass $M$. This implies that $b=1$. We plug $B=M$ into eq. \eqref{eq:rtt_final} and find:
 \begin{equation}
 	\begin{split}
 		\frac{dM_{sys}}{Dt} = \boxed{\frac{\partial}{\partial t}  \int_{cv} \rho dV + \int _{cs} \rho \vec v \cdot \hat n \,dA =0}\\
@@ -34,6 +34,103 @@ Which is the continuity equation. In words, this means:
 		}\right)
 \end{equation*}
 
-\section{Momentum: Newtons \nth{2} Law}
+\section{Momentum: Newton's \nth{2} Law}
+To express Newton's second law for control volumes, the quantity $\vec B=M\cdot \vec v$. We can think of the vectorised version as a combination of three quantities. $\vec b = \vec v$.
+Newton second law in Lagrangian form is:
+\begin{equation*}
+	\frac{D}{Dt}(M\vec v)_{sys} = \sum \vec F_{sys}
+\end{equation*}
 
-\section{Energy Conservation}
+We can rewrite the first term into Eularian:
+\begin{equation}
+\frac{D}{Dt}(M\vec v)_{sys} =\boxed{\frac{\partial}{\partial t}\int_{cv}\rho\vec v \,dV+ \int_{cs}\rho\vec v(\vec v\cdot \hat n)\,dA=\sum \vec F_{\substack{\text{content of the}\\\text{coincident CV}}}}
+\end{equation}
+
+If the flow is steady, the first integral is zero.
+
+
+The integral over the control surface can be decomposed when mass-flow occurs only through a certain number of surfaces. If an area is flat (hence $\hat n=const$), velocity and density are unified, the integral multiplies the area, and we end up with
+\begin{equation*}
+	\int_A \rho\vec v(\vec v\cdot \hat n)\,dA = \dot M\vec v
+\end{equation*}
+
+For steady one-inlet, one-outlet uniform flow problems, we get:
+\begin{equation*}
+	\sum\vec F = \dot M(\vec v_2-\vec v_1)
+\end{equation*}
+
+We can interpret the first term as the \textbf{rate of change of linear momentum in the control volume}, and the right term as side as the \textbf{flux of linear momentum though the control surface}.
+
+
+\textbf{Note} The control volume must be fixed, non-deforming, and attached to an inertial frame of reference. 
+
+
+\section{Energy Conservation (\nth{1} Law of Thermodynamics)}
+
+\subsection{General Situation}
+We choose $B=E$, the total energy, therefore $b=\frac EM=e$ the total specific energy. The total energy accounts for: internal, kinetic, and potential  energy:
+\begin{equation*}
+	e=\tilde u+\frac 12 v^2+gz\qquad \vec g = -g\hat k
+\end{equation*}
+For the Lagrangian system:
+\begin{equation*}
+	\frac{D}{Dt}\int_{sys}e\rho\,dV = \dot Q_{net, in}+\dot W_{net, in}
+\end{equation*}
+where $\dot Q_{net,in}$ is the net time rate of energy into the system due to heat transfer, $\dot W_{net,in}$ is the net time rate of energy into the system due to work done on the system.
+
+We can rewrite the above equation to:
+\begin{equation}
+	\frac{\partial}{\partial t}\int_{cv} e\rho\,dV + \int_{cs}e\rho\vec v\cdot \hat n \,dA =\left(\underbrace{\dot Q_{net,in}}_{\substack{\text{heat transfer}\\\text{rate}}} + \underbrace{\dot W_{net,in}}_{\substack{\text{Power}}}\right)_{cv}
+	\label{eq:first_law_cv_firststep}
+\end{equation}
+
+\paragraph{Types of Power}
+Power is a force times a velocity.
+\begin{itemize}
+	\setlength{\itemsep}{-5pt}
+	\item \textbf{Shaft Power}: $\dot W_{shaft} = T \omega$,\\where $T$ is the torque and $\omega$ is the angular frequency. Examples include: Active pumps, fans, etc.
+	\item \textbf{Normal Stress Power}	 $\dot W_{\substack{stress\\normal}}^{in} = -\int_{cs}p\vec v \cot \hat n \,dA$,\\where $p$ is the pressure applied, $v$ is the velocity, and $\hat n$ is the outer normal vector of the control volume. Examples include: Bicycle pumps
+\end{itemize}
+
+If both the shaft power and normal stress power are present, the equation \eqref{eq:first_law_cv_firststep} can be written as
+\begin{equation}
+	\boxed{\frac{\partial}{\partial t}\int_{cv}r\rho\,dV + \int_{cs} \left(\tilde u + \frac 12 v^2 + gz + \frac p\rho\right)\rho\vec v\cdot \hat n \,dA = \dot Q_{net,in} +\dot W_{shaft,in}}
+	\label{eq:first_law_cv}
+\end{equation}
+This is the first law of thermodynamics written for a control volume.
+
+\subsection{Simplified Situation}
+For a simplified situation, we assume: steady flow, one inlet, one outlet, uniform flow through inlet and outlet.
+
+The equation \eqref{eq:first_law_cv} can be rewritten as:
+\begin{equation*}
+	\boxed{\left(\tilde u+\frac 12 v^2+gz+\frac p\rho \right)_{out}\dot M - \left(\tilde u+\frac 12 v^2+gz+\frac p\rho \right)_{in}\dot M = \dot Q_{net,in} +\dot W_{shaft,in}}
+\end{equation*}
+Often, this is expressed using enthalpy: $h=\tilde u + p/\rho$.
+
+\subsection{Relation to Bernoulli}
+We rewrite the above result to arrive at a similar result as the Bernoulli Equation from \eqref{eq:bernoullis_equation}:
+\begin{equation*}
+	\left(\frac 12 v^2 + gz + \frac p\rho\right)_{out}- \left(\frac 12 v^2 + gz + \frac p\rho\right)_{in}= q_{net,in} + w_{shaft,in}-(\tilde u_{out}-\tilde u_{in})
+\end{equation*}
+With $ q_{net,in} = \frac{\dot Q_{net,in}}{\dot M}$ is the heat transfer per mass, same with $w_{net,in}$.
+
+We can come to the conclusion, that:
+\begin{equation*}
+	\left(\frac 12 v^2+gz + \frac p\rho\right)_{out} - 
+	\left(\frac 12 v^2+gz + \frac p\rho\right)_{in} =W_{shaft,in} - \mathrm{loss}
+\end{equation*}
+Where the loss of the system is: $\mathrm{loss}= \tilde u_{out}-\tilde u_{in} - q_{net,in}$. If the loss is zero, we arrive at the Bernoulli equation, which is with the assumption of no shear forces, thus no shaft work and no friction, thus no loss. This means, that the Bernoulli's equation is in fact equivalent to the energy conservation law if there were no losses.
+
+
+\section{Control Volumes}
+Munson treats fixed, non-deforming CVs (5.1.2), moving, non-deforming CVs (5.1.3), and deforming CVs (5.1.3).
+\subsection{Deforming Control Volumes}
+
+we define $\vec w = \vec v-\vec v_{cs}$ the absolute velocity of the control volume surface point: it is the relative velocity minus the local velocity of the control surface differential element.
+\begin{equation*}
+\left(\frac{DB}{Dt}\right)_{sys} = \frac{\partial}{\partial t}\int_{cv} \rho b \,dV + \int_{cs} \rho b \vec w \cdot \hat n \,dA
+\end{equation*}
+
+The first integral can be non-zero, even if the flow is steady.
+
