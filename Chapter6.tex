@@ -1,0 +1,82 @@
+\chapter{Differential Analysis}
+
+\section{Mass Conservation}
+{\footnotesize\textit{Munson 6.2}}
+Recall the law for mass conservation that was transferred to a control volume approach in the last chapter:
+\begin{equation*}
+	\begin{split}
+		\frac{dM_{sys}}{Dt}&=0\\
+		\text{\footnotesize Reynolds Transport Theorem:} \quad \frac{\partial}{\partial t}\int_{cv} \rho \,dV + \underbrace{\int_{cs} \rho \vec v \cdot \hat n\,dA}_{\stackrel{\text{Gauss}}{=} \int_{cv} \nabla \cdot (\rho \vec v )\,dV} &= 0\hfill\\
+		\int_{cv} \left[\frac{\partial}{\partial} \rho + \nabla \cdot (\rho \vec v)\right]\,dV &= 0 \stackrel{(*)}\Longleftrightarrow \frac{\partial}{\partial} \rho + \nabla \cdot (\rho \vec v)=0
+	\end{split}
+\end{equation*}
+Where at $(*)$ we figure that an integral over an arbitrary volume can only be zero if the integrand itself is zero.
+The resulting equation is what we call the \textbf{continuity equation}:
+\begin{equation*}
+	\boxed{\frac{\partial \rho}{\partial t} + \nabla \cdot \left(\rho \vec v \right) = 0}\qquad \text{Eularian Form}
+\end{equation*}
+The Lagrangian form is as follows:
+\begin{equation*}
+	\boxed{\frac{D\rho}{Dt} + \rho \nabla \cdot \vec v = 0} \qquad \text{Lagrangian Form}
+\end{equation*}
+
+For an incompressible case, where $\rho = const$, then 
+\begin{equation*}
+	\boxed{\nabla \cdot \vec v = 0}  \qquad \text{Incompressible}
+\end{equation*}
+
+
+
+
+\section{Navier-Stokes Equations (Momentum Conservation / Newtons \nth2 law)}
+{\footnotesize\textit{Munson 6.3}}  Recall newtons \nth2 law for a Lagrangian system, which we rewrote to an eularian fashion:
+\begin{equation*}
+	\frac{D}{Dt} (M\vec v)_{sys} = \sum \vec F_{ext}\implies \frac{\partial}{\partial t} \int_{cv}\rho\vec v \,dV + \int_{cs}\rho \vec v (\vec v \cdot \hat n) = \sum \vec F_{ext}
+\end{equation*}
+As before, we would like to rewrite everything under one volume integral. 
+
+The second term can be rewritten using Gauss:
+\begin{equation*}
+	\int_{cs} \rho \vec v(\vec v \cdot \hat n) \,dA \stackrel{\text{Gauss}}{=} \int_{cv} \nabla\cdot (\vec v \rho \vec v)\,dV
+\end{equation*}
+Since $\rho$ is constant, we can denote the $i$th component of the integrand as 
+\begin{equation*}
+	\nabla\cdot (\vec v \rho \vec v)\stackrel{\nabla \cdot \vec v = 0}= \rho v_j \partial_j v_i = \rho \vec v \cdot \nabla \vec v
+\end{equation*}
+
+For a control volume, we want to consider the following forces (right hand term):
+\begin{itemize}
+	\setlength{\itemsep}{-5pt}
+	\item \textbf{body forces}
+	\begin{equation*}
+		\int_{cv} \rho \vec g \,dV
+	\end{equation*}
+	\item \textbf{surface forces} (including non-viscous forces)
+	
+	The non-viscous force is pressure acting on the differential element. non-viscous forces are represented in the rank two stress tensor $\overline{\overline{\tau}}$:
+	\begin{equation*}
+		\overline{\overline{\tau}} = \begin{pmatrix}
+			\tau_{xx}&\tau_{xy}&\tau_{xz}\\
+			\tau_{yx}&\tau_{yy}&\tau_{yz}\\
+			\tau_{zx}&\tau_{zy}&\tau_{zz}\\
+		\end{pmatrix}
+	\end{equation*}
+	The stress tensor has the following properties:
+	\begin{itemize}
+		\item $\hat n \cdot \overline{\overline{\tau}}$ or $(\hat n \cdot \overline{\overline{\tau}})_j = n_i\tau_{ij}$ is the stress on the surface with normal $\hat n$.
+		\item $\tau_{ij} = \tau_{ji}\implies \hat n \cdot \overline{\overline{\tau}}  = \overline{\overline{\tau}} \hat n$ (symmetric)
+	\end{itemize}
+	We define the cauchy stress tensor $\overline{\overline \sigma}\cdot \hat n$ with $\overline{\overline \sigma} = -p\overline{\overline{I_d}} + \overline{\overline{\tau}}$ All surface forces combined can therefore be expressed as
+	\begin{equation*}
+		\int_{cs} \overline{\overline \sigma }\cdot \hat n  \,dA = \int_{cv} \nabla \cdot \overline{\overline {\sigma}}\,dV
+	\end{equation*}
+\end{itemize}
+
+The complete volume integral with all terms is
+\begin{equation*}
+	\int_{cv}\rho\frac{\partial \vec v}{\partial t} + \rho \vec v \cdot \nabla \vec v - \rho \vec g - \nabla \cdot (-p\overline{\overline{I_d}}+ \overline{\overline{\tau}}) \,dV = 0
+\end{equation*}
+Which is valid for all control volumes, and therefore the integrand must also be zero:
+\resizebox{\textwidth}{!}{\shadowbox{$\displaystyle
+	{\boxed{\rho \left(\frac{\partial \vec v}{\partial t} + \vec v \cdot \nabla \vec v \right) =-\nabla p + \rho \vec g + \nabla \cdot \overline{\overline{\tau}}}} \qquad \substack{\text{Cauchy's Equation }\\\text{(Incompressible flow)}}
+	$}}
