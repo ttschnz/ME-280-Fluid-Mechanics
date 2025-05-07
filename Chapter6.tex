@@ -151,7 +151,7 @@ We can conclude that:
 
 \begin{itemize}
 	\setlength{\itemsep}{-5pt}
-	\item \textbf{linear deformation}: (diagonal components of the velocity field)
+	\item \textbf{linear deformation}: (diagonal components of the gradient velocity tensor)
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.4\linewidth]{Sketches/LinearDeformation}
@@ -170,12 +170,84 @@ We can conclude that:
 		&= \nabla \cdot \vec v = 0\text{, if $\rho=const$}
 	\end{split}
 	\end{equation*}
-	\item \textbf{angular deformations}
+	\item \textbf{angular deformations} (off-diagonal components of the gradient velocity tensor)
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.4\linewidth]{Sketches/angular_deformations}
+		\caption{}
+		\label{fig:angulardeformations}
+	\end{figure}
+	\begin{equation*}
+		\begin{split}
+			\omega_{OA} &= \lim_{\Delta t \to 0}  \frac{\delta \alpha}{\Delta t} \stackrel{(*)}= \lim_{\Delta t \to 0} \frac{1}{\Delta t} \left(\frac{\frac{\partial v}{\partial x}\delta x \Delta t}{\delta x}\right) = \frac{\partial v}{\partial x}\\
+			\omega_{OB} &= -\frac{\partial u}{\partial y}
+		\end{split}
+	\end{equation*}
+	At $(*)$ we used a small angle approximation $\tan\delta \alpha \approx \delta \alpha$. The average rotation is the rotation of the bisecting line $\overline {OC}$. We can write it's angular velocity as
+	\begin{equation*}
+		\omega_z = \frac 12 \left(\omega_{OA}+\omega_{OB}\right) = \frac 12 \left(\frac{\partial v}{\partial x} - \frac{\partial u}{\partial y}\right)
+	\end{equation*}
+	Applying the same around $x$ and $y$ axis yields
+	\begin{equation*}
+		\vec \omega = \frac 12 \nabla \times \vec v = \frac 12 \zeta
+	\end{equation*}
+	in terms of the is the \textbf{vorticity} $\zeta$:\footnote{Heads up: Vorticity is not necessarily a circular transportation, but rather if (and how much) the fluid elements rotate about \textbf{their own axis}.}
+	\begin{equation*}
+		\boxed{\zeta = \nabla \times \vec v}
+	\end{equation*}
+	\textbf{Circularity} is a measure of velocity on some curve $c$ around an area $A$ on the surface of a volume.
+	\begin{equation*}
+		\Gamma = \oint_{c} \vec v \cdot \vec{ds} = \oint_{A} (\nabla \times \vec v )\cdot \vec{dA}
+	\end{equation*}
+	Where we see the vorticity again.
+	It can be shown that inviscid flow means no change in rotation ($d\Gamma/dt=0$) and we say that "$\Gamma$ is conserved".
+	
+	It is therefore reasonable to consider inviscid flows ($\mu \to 0$) and irrotational flows ($\nabla \times \vec v = \vec 0$).
 \end{itemize}
 
-\section{Potential flow / Irrotational flow}
 
-\section{2D flow}
+\section{Potential flow / Irrotational flow}
+We assume that we are looking at \textit{incompressible, inviscid, and irrotational} flow.
+We know that
+\begin{equation*}
+	\nabla \times \vec v = \vec 0\implies \exists \phi : \vec v = \nabla \phi
+\end{equation*}
+with the velocity potential $\phi$.
+
+The continuity, and momentum equations turn into:
+\begin{equation*}
+	\begin{split}
+		\text{Continuity Equation}\qquad\qquad\qquad\qquad\quad \nabla \cdot \vec v &= 0 \qquad (\rho = const) \\
+		&\implies \boxed{\nabla^2 \phi = 0}\\\\
+		\text{Momentum balance}\qquad\,\,\qquad \rho \left(\frac{\partial \vec v}{\partial t}+ \vec v \cdot \nabla \vec v \right) &= \rho \vec g - \nabla p \qquad \\
+		\implies  \rho \frac{\partial \phi}{\partial t} + \frac{\rho}{2}v^2 + p + \rho g z &= const \qquad \Big | \text{steady:} \partial_t \phi = 0\\		
+		\frac{\rho}{2}v^2 + p + \rho g z &= const
+	\end{split}
+\end{equation*}
+Note that the result from the momentum balance is the same as the Bernoulli equation, but not restricted to any field lines.
+
+To solve such a problem we follow the following steps:
+\begin{enumerate}
+	\setlength{\itemsep}{-5pt}
+	\item \textbf{Solve Laplace} $\nabla^2\phi = 0$ with appropriate boundary conditions
+	\item \textbf{Compute Velocity} $\vec v = \nabla \phi\implies \phi, \vec v$ known
+	\item \textbf{Solve for the Pressure} Solve the momentum balance $\frac{\rho}{2}v^2 + p + \rho g z = const$ for pressure.
+	\item \textbf{Integrate Pressure over Surface} to get the force on the object
+\end{enumerate}
+
+
+\section{2D Flows -- The Stream Function}
+We start from the conservation of mass in an incompressible situation:
+\begin{equation*}
+	\begin{split}
+		\nabla \cdot \vec v &= 0, \vec v = u\hat i + v\hat j + \cancel{w\hat k}\\
+		\nabla \cdot \vec v &= 0 \Leftrightarrow \frac{\partial u}{\partial x} = - \frac{\partial v }{\partial y}\\
+		\exists \Psi(x,y) :  \frac{\partial \Psi}{\partial y} &= u, -\frac{\partial \Psi}{\partial x} = v\implies \nabla \vec v = \frac{\partial}{\partial x}\frac{\partial \Psi}{\partial y} - \frac{\partial}{\partial y} \frac{\partial \Psi}{\partial x} = 0
+	\end{split}
+\end{equation*}
+The 2D velocity fields can be derived from a so-called \textit{stream-function} $\Psi$ that by construction satisfies mass conservation ($\nabla \cdot \vec v = 0$).
+
+
 
 \section{2D Potential Flow}
 
