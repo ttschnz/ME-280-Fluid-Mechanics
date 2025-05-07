@@ -76,7 +76,109 @@ The complete volume integral with all terms is
 \begin{equation*}
 	\int_{cv}\rho\frac{\partial \vec v}{\partial t} + \rho \vec v \cdot \nabla \vec v - \rho \vec g - \nabla \cdot (-p\overline{\overline{I_d}}+ \overline{\overline{\tau}}) \,dV = 0
 \end{equation*}
-Which is valid for all control volumes, and therefore the integrand must also be zero:
+Which is valid for all control volumes, and therefore the integrand must also be zero. This is the \textbf{Cauchy's Equation}:
+\begin{equation}
+\boxed{\rho \left(\frac{\partial \vec v}{\partial t} + \vec v \cdot \nabla \vec v \right) =-\nabla p + \rho \vec g + \nabla \cdot \overline{\overline{\tau}}}
+\end{equation}
+
+
+
+Recall the result for a Newtonian fluid:
+\begin{equation*}
+	\tau = \mu \frac{dv_x}{dy} = \tau_{yx}=\tau_{xy}
+\end{equation*}
+We now know that this $\tau$ is a component of the stress-strain tensor $\overline{\overline{\tau}}$. We were looking at the surface $y$ in the velocity in $x$. We can therefore express the stress-strain rate relationship (which is linear) for a more complicated geometry, as
+\begin{equation*}
+	\tau_{ij} = \mu \left(\frac{\partial v_i}{\partial x_j} + \frac{\partial v_j}{\partial x_i}\right)
+\end{equation*}
+
+Through this new relation, we can substitute into Cauchy's Equation:
+\begin{equation*}
+	(\nabla \cdot \overline{\overline{\tau}})_j = \partial_i\tau_{ij} = \mu \left(\cancel{\partial_i\partial_j v_i} + \partial_i \partial_i v_j\right) = \mu \nabla^2v_j
+\end{equation*}
+We could cancel the first term due to mass conservation for incompressible fluids ($\nabla \cdot \vec v = 0$).
+this yields
+
 \resizebox{\textwidth}{!}{\shadowbox{$\displaystyle
-	{\boxed{\rho \left(\frac{\partial \vec v}{\partial t} + \vec v \cdot \nabla \vec v \right) =-\nabla p + \rho \vec g + \nabla \cdot \overline{\overline{\tau}}}} \qquad \substack{\text{Cauchy's Equation }\\\text{(Incompressible flow)}}
-	$}}
+		{\boxed{\rho \left(\frac{\partial \vec v}{\partial t} + \vec v \cdot \nabla \vec v \right) =-\nabla p + \rho \vec g + \mu \nabla^2\vec v}} \qquad \substack{\text{Navier-Stokes Equation}\\\text{(Incompressible flow)}}
+		$}}
+	
+For an incompressible Newtonian fluid with $\rho = const, \mu = const$, 
+we can summarise:
+\begin{equation*}
+	\begin{cases}
+		\rho \left(\frac{\partial \vec v}{\partial t} + \vec v \cdot \nabla \vec v \right) =-\nabla p + \rho \vec g + \mu \nabla^2\vec v\\
+		\nabla \cdot \vec v = 0
+	\end{cases}
+\end{equation*}
+Together with boundary and initial conditions, this describes all fluid mechanics problems of Newtonian fluids.
+We cannot solve it however.
+
+In order to make progress, we can solve it for a set of special cases.
+  
+\section{Inviscid Flow}
+Looking at the Navier-Stokes Equation, we want to find out in which cases it is okay to neglect the inertial term and the viscous term:
+\begin{equation*}
+	\rho \frac{\partial \vec v}{\partial t} + \underbrace{\cancel{\rho \vec v \cdot \nabla \vec v}}_{\substack{\text{inertial /}\\\text{advection term}}}  = -\nabla p + \rho g + \underbrace{\cancel{\mu \nabla^2 \vec v}}_{\substack{\text{viscous}\\\text{term}}}
+\end{equation*}
+We want to understand the "scaling" in order to estimate the terms:
+\begin{itemize}
+	\setlength{\itemsep}{-5pt}
+	\item \textbf{viscous term:} $|\mu\nabla^2 \vec v| \approx \mu \cdot \frac{V}{L^2}$
+	\item \textbf{inertial term:} $|\rho \vec v \cdot \nabla \vec v|\approx \rho \cdot \frac{V^2}{L}$
+\end{itemize}
+where $V$ is the characteristic velocity and $L$ is the length.
+We define the Reynolds number:
+\begin{equation*}
+	Re := \frac{\text{"inertial term"}}{\text{viscosity}} = \frac{\rho V^2/L}{\mu V/L^2} = \frac{VL}{\mu/\rho} = \frac{VL}{\nu}
+\end{equation*}
+where $\nu$ was the kinematic viscosity.
+We can conclude that:
+\begin{itemize}
+	\setlength{\itemsep}{-5pt}
+	\item With a \textbf{large Reynolds number} ($Re >> 1$), we can justify to neglect the \textbf{viscous term}\footnote{The term we dropped, we changed the order of the equation from 2 to one: we therefore cannot apply all boundary conditions.}:
+	\begin{equation*}
+		\boxed{\rho \frac{\partial \vec v}{\partial t} + \rho \vec v \cdot \nabla \vec v =-\nabla p + \rho \vec g }\qquad \substack{\text{Euler Equation}\\\text{"inviscid flow"}}
+	\end{equation*}
+	\item With a \textbf{small Reynolds number} ($Re << 1$), we can justify to neglect the \textbf{inertial term}
+	\begin{equation*}
+		\boxed{\rho \frac{\partial \vec v}{\partial t} =-\nabla p + \rho \vec g + \mu \nabla^2\vec v}\qquad \substack{\text{Stoke's Equation}\\\text{"creeping flow"}}
+	\end{equation*}
+\end{itemize}
+
+\section{Vorticity and Circulation}
+\paragraph{Deformation of a Fluid Element:} Let's consider a fluid element as a box with a certain size $\delta x, \delta y, \delta z$. It is advected in the fluid flow. If the velocity would be uniform, then the fluid element would just be transported without deforming. If not (i.e. the corners of the box don't have the same velocity), it will deform. \textit{The deformation is controlled by the velocity gradients with space}.
+
+\begin{itemize}
+	\setlength{\itemsep}{-5pt}
+	\item \textbf{linear deformation}: (diagonal components of the velocity field)
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.4\linewidth]{Sketches/LinearDeformation}
+		\caption{}
+		\label{fig:lineardeformation}
+	\end{figure}
+	\begin{equation*}
+		\frac{d(\delta x)}{d t} = \frac{\partial u}{\partial x} \implies \frac{1}{\delta x} \frac{d (\delta x)}{d t} = \frac{\partial u}{\partial x}
+	\end{equation*}
+	Likewise, $\partial_y v, \partial_z w$ are the linear deformations in $y$ and $z$, respectively. The volume change $\delta V = \delta x\cdot \delta y \cdot \delta z $ can be expressed as:
+	\begin{equation*}
+	\begin{split}
+		   \frac{1}{\delta V}\frac{d(\delta V)}{dt}  
+		&= \frac{1}{\delta x}\frac{d(\delta x)}{dt} + \frac{1}{\delta y}\frac{d(\delta y)}{dt}+\frac{1}{\delta z}\frac{d(\delta z)}{dt} \\
+		&= \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y } + \frac{\partial w}{\partial z}\\
+		&= \nabla \cdot \vec v = 0\text{, if $\rho=const$}
+	\end{split}
+	\end{equation*}
+	\item \textbf{angular deformations}
+\end{itemize}
+
+\section{Potential flow / Irrotational flow}
+
+\section{2D flow}
+
+\section{2D Potential Flow}
+
+\subsection{Basic plane potential flows}
+\subsection{Superpositions}
+\subsection{Lift and drag on an Airfoil}
