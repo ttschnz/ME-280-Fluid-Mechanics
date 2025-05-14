@@ -245,12 +245,142 @@ We start from the conservation of mass in an incompressible situation:
 		\exists \Psi(x,y) :  \frac{\partial \Psi}{\partial y} &= u, -\frac{\partial \Psi}{\partial x} = v\implies \nabla \vec v = \frac{\partial}{\partial x}\frac{\partial \Psi}{\partial y} - \frac{\partial}{\partial y} \frac{\partial \Psi}{\partial x} = 0
 	\end{split}
 \end{equation*}
-The 2D velocity fields can be derived from a so-called \textit{stream-function} $\Psi$ that by construction satisfies mass conservation ($\nabla \cdot \vec v = 0$).
+If we have a 2D-velocity field which is derived from a so-called \textbf{Stream Function} $\Psi$, it automatically satisfies mass conservation.
 
-
+To observe places, where the $\Psi$ is constant, the exact differential of $\Psi$ can be expressed as:
+\begin{equation*}
+	d\Psi = \frac{\partial \Psi}{\partial x}\cdot dx + \frac{\partial \Psi}{\partial y}\cdot dy = 0\Leftrightarrow \frac{dy}{dx} = \frac{v}{u}\quad \text{eq. of a streamline}
+\end{equation*}
+Therefore, a stream function is constant along a stream line.
 
 \section{2D Potential Flow}
+If we assume the following things
+\begin{itemize}
+	\setlength{\itemsep}{-5pt}
+	\item incompressible
+	\item inviscid
+	\item irrotational $\implies \vec v = \nabla \phi$
+	\item 2d $\implies $ there is a stream function $\Psi$
+\end{itemize}
+We can therefore combine
+\begin{equation*}
+	\begin{split}
+		\phi:\qquad 0 &= \nabla \cdot \vec v = \nabla^2 \phi \\
+		\implies 0&=\frac{\partial^2 \phi}{\partial x^2}+ \frac{\partial ^2 \phi}{\partial y^2} \\
+		\Psi: \qquad \vec 0 &= \nabla \times \vec v\\\implies 0 &= \frac{\partial ^2 \psi}{\partial x^2}+ \frac{\partial ^2 \psi}{\partial y^2}
+	\end{split}
+\end{equation*}
+Both the stream function and the velocity potential satisfy the Laplace equation\footnote{They don't need to be the same yet, as the boundary conditions are not clear.}
+
+To compare them, we compare their differential:
+\begin{equation*}
+	d\phi  = u dx + v dy = 0\implies \frac{d y}{dx} = -\frac{u}v
+\end{equation*}
+the slope is the negative inverse of the stream function, meaning they are orthogonal to the stream lines. From this follows that:
+
+\shadowbox{Equipotential lines ($\phi = const$) are perpendicular to stream lines ($\psi = const$).}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{0.48\linewidth}
+		\centering
+		\includegraphics[height=5cm]{Sketches/equipotential_lines_1}
+		\caption{streamline and equipotential line illustrated around a curve}
+		\label{fig:equipotentiallines1}
+	\end{subfigure}%
+	\hfill
+	\begin{subfigure}{0.48\linewidth}
+		\centering
+		\includegraphics[height=5cm]{Sketches/equipotential_lines_2}
+		\caption{streamline and equipotential line illustrated in a corner}
+		\label{fig:equipotentiallines2}
+	\end{subfigure}
+\end{figure}
+
+\paragraph{Example}
+Given $\phi = \frac a2 (x^2-y^2)$, we calculate $\partial^2_{xx}\phi + \partial^2_{yy}\phi = a-a = 0$ to verify that it satisfies the condition for a velocity potential. We can den try to determine the stream function $\psi$, by their relationship via $u$ and $v$:
+\begin{equation*}
+	\left.\begin{split}
+		u &= \frac{\partial \phi}{\partial x} = ax = \frac{\partial \psi}{\partial y}\\
+		v &= \frac{\partial \phi}{\partial y} = -ay = -\frac{\partial \psi}{\partial x}
+	\end{split}\right\} \Psi = axy + \cancel c
+\end{equation*}
+The constant has no physical meaning, and can be chosen arbitrarily (zero is the simplest one choice.)
+
+
+
 
 \subsection{Basic plane potential flows}
+If we can construct a potential-flow solution, such that the stream line captures a desired surface of a 2D body, then boundary conditions are satisfied on the surface. These flow solutions can be superimposed to get more complex solutions.
+
+We will discuss four flows
+\subsubsection{Uniform Flow}
+\begin{equation*}
+	\begin{split}
+		\phi &= U_0\cdot x\\
+		\psi &= U_0\cdot y
+	\end{split}
+\end{equation*}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{Sketches/uniform_flow}
+	\caption{}
+	\label{fig:uniformflow}
+\end{figure}
+
+\subsubsection{Line-Source and -Sink}
+At a point in space (here the origin), a volume rate $m$ is emerging. 
+\begin{equation*}
+	\left.\begin{split}
+		v_r&= \frac{m}{2\pi r} =  \frac{\partial \phi}{\partial r} = \frac 1r \frac{\partial \Psi}{\partial \theta}\\
+		v_\theta &= 0 = \frac 1r \frac{\partial \phi}{\partial \theta} = -\frac{\partial \Psi}{\partial r}
+	\end{split}\right\}\implies \begin{cases}
+	\phi =\frac{m}{2\pi}\ln r \\
+	\psi = \frac{m}{2\pi}\theta
+	\end{cases}\hfill
+\end{equation*}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{Sketches/source_sink_flow}
+	\caption{}
+	\label{fig:sourcesinkflow}
+\end{figure}
+
+
+\subsubsection{Line Vortex}
+\begin{equation*}
+	\left.\begin{split}
+		v_\theta&= \frac{m}{2\pi r} =  \frac 1r \frac{\partial \phi}{\partial \theta} = -\frac{\partial \Psi}{\partial r}\\
+		v_r &= 0 = \frac{\partial \phi}{\partial r} = \frac 1r \frac{\partial \Psi}{\partial \theta}
+	\end{split}\right\}\implies \begin{cases}
+		\phi =k\theta \\
+		\psi = -k\ln r
+	\end{cases}\hfill
+\end{equation*}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{Sketches/line_vortex_flow}
+	\caption{}
+	\label{fig:linevortexflow}
+\end{figure}
+
+\subsection{Doublet}
+This is actually already a superposition. Combining a source and a sink at equal distance from the origin of opposite but equal strength. To neglect angular problems, we look at the case where the distance $a$ goes to zero, and the volume rate $m$ to infinity, such that $m\cdot a = const$.
+\begin{equation*}
+	\begin{split}
+		\phi = -\frac{m}{2\pi}(\theta_1-\theta_2) &\stackrel{a\to 0}{\longrightarrow}\frac{k\cos\theta}r\\
+	\psi &\stackrel{a\to 0}{\longrightarrow} -\frac{k\sin\theta}{r}
+	\end{split}\qquad k = \frac{ma}{\pi}
+\end{equation*}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{Sketches/doublet_flow}
+	\caption{}
+	\label{fig:doubletflow}
+\end{figure}
+
+
 \subsection{Superpositions}
+
 \subsection{Lift and drag on an Airfoil}
