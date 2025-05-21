@@ -364,7 +364,7 @@ At a point in space (here the origin), a volume rate $m$ is emerging.
 	\label{fig:linevortexflow}
 \end{figure}
 
-\subsection{Doublet}
+\subsubsection{Doublet}
 This is actually already a superposition. Combining a source and a sink at equal distance from the origin of opposite but equal strength. To neglect angular problems, we look at the case where the distance $a$ goes to zero, and the volume rate $m$ to infinity, such that $m\cdot a = const$.
 \begin{equation*}
 	\begin{split}
@@ -379,8 +379,184 @@ This is actually already a superposition. Combining a source and a sink at equal
 	\caption{}
 	\label{fig:doubletflow}
 \end{figure}
-
-
+\begin{tabular}{|m{2cm}|l|l|m{4cm}|}
+	\hline
+	\textbf{Description of Flow Field} & \textbf{Velocity Potential} & \textbf{Stream Function} & \textbf{Velocity Components} \\
+	\hline
+	Uniform flow at angle $\alpha$ with the $x$ axis &
+	$\phi = U(x \cos \alpha + y \sin \alpha)$ &
+	$\psi = U(y \cos \alpha - x \sin \alpha)$ &
+	$u = U \cos \alpha$ \newline $v = U \sin \alpha$ \\
+	\hline
+	Source or sink \newline $m > 0$ source \newline $m < 0$ sink &
+	$\phi = \dfrac{m}{2\pi} \ln r$ &
+	$\psi = \dfrac{m}{2\pi} \theta$ &
+	$v_r = \dfrac{m}{2\pi r}$ \newline $v_\theta = 0$ \\
+	\hline
+	Free vortex \newline $\Gamma > 0$ counterclockwise \newline $\Gamma < 0$ clockwise &
+	$\phi = \dfrac{\Gamma}{2\pi} \theta$ &
+	$\psi = -\dfrac{\Gamma}{2\pi} \ln r$ &
+	$v_r = 0$ \newline $v_\theta = \dfrac{\Gamma}{2\pi r}$ \\
+	\hline
+	Doublet &
+	$\phi = \dfrac{K \cos \theta}{r}$ &
+	$\psi = -\dfrac{K \sin \theta}{r}$ &
+	$v_r = -\dfrac{K \cos \theta}{r^2}$ \newline $v_\theta = -\dfrac{K \sin \theta}{r^2}$ \\
+	\hline
+\end{tabular}
 \subsection{Superpositions}
+\subsubsection{The Half-Body}
+This is a superposition of a source and a uniform flow.
+Through linearity, the stream function for this combination is:
+\begin{equation*}
+	\begin{split}
+		\psi &= \psi_{UF} + \psi_{S}\\
+		&= U_0\cdot y + \frac{m}{2\pi}\theta \\
+		&= U_0r\sin\theta + \frac{m}{2\pi}\theta
+	\end{split}
+\end{equation*}
+The velocity potential $\phi$ can be described similarly through
+\begin{equation*}
+	\begin{split}
+		\phi &= \phi_{UF} + \phi_{S}\\
+		&=U_0r\sin\theta + \frac{m}{2\pi}\ln r 
+	\end{split}
+\end{equation*}
 
+Through these definitions of $\phi$ and $\psi$, we can express the velocities as follows:
+\begin{equation*}
+	\begin{split}
+		v_r &= \frac 1r \frac{\partial \psi}{\partial \theta } = U_0 \cos\theta + \frac{m}{2\pi r}\\
+		v_\theta &= - \frac{\partial \psi}{\partial r} = -U_0\sin\theta 
+	\end{split}
+\end{equation*}
+
+To understand these velocities, we find the stagnation point on the x-axis, at $\theta_{sp}=\pi$, $v_r= 0$:
+\begin{equation*}
+	0=u_0\cos\theta_{sp} + \frac{m}{2\pi r_{sp}} \implies r_{sp} = \frac{m}{2\pi U_0}
+\end{equation*}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{Sketches/halfbody}
+	\caption{}
+	\label{fig:halfbody}
+\end{figure}
+Describing the stagnation stream line, we write
+\begin{equation*}
+	\psi_{sp} = \frac m2 = U_0 r \sin\theta + \frac{m}{2\pi}\theta \implies r = \frac{m}{2\pi U_0} \frac{\pi - \theta}{\sin\theta},\quad \theta \in[0,2\pi[
+\end{equation*}
+
+The intersection point of the stagnation stream line on the $y$ axis is at $\theta=\pi/2$, with radius $r=\frac{m}{4U_0}$.
+To inspect the y-height of the stagnation stream line, we get $y=r\sin\theta = \frac{m}{2\pi U_0}(\pi-\theta) = \frac{m}{2 U_0}$.
+
+We interpret the stagnation stream line as the surface of a so-called \textit{half-body}.
+
+Next we would like to calculate the velocity and pressure on the surface
+\begin{equation*}
+	v^2 + v_r^2 + v_\theta ^2 = U_0^2 \left(1+2\frac{b}{r}\cos(\theta) + \frac{b^2}{r^2}\right), \qquad b = \frac{m}{2\pi U_0}
+\end{equation*}
+
+\subsubsection{Rankine Oval}
+A source and sink placed at $x=-a$ and $x=a$ respectively, all inside of a uniform flow. This will not be discussed, further reference can be found in \textbf{Munson 6.6.2}.
+
+\subsubsection{Circular Cylinder}
+We superimpose uniform flow and a doublet. We can immediately write the stream function and velocity potential
+\begin{equation*}
+	\begin{split}
+		\psi &= \psi_{UF} + \psi_{D} = U_0y - \frac{K\sin\theta}{r} = \left(U_0+\frac{K}{r^2}\right)r\sin\theta\\
+		\phi &= \phi_{UF} + \phi_D = \left(U_0+\frac K{r^2}\right)r\cos\theta
+	\end{split}
+\end{equation*}
+
+We have two stagnation points for $y=0$, $\theta\in\{0,\pi\}$. $\psi=0$ is a stream line through $r=a$ if $u_0-\frac K{r^2}=0$. We need to choose $K=U_0a^2$, such that the stagnation stream line is a circle with radius $a$. The flow around a cylinder of radius $a$ can be described as:
+\begin{equation*}
+	\begin{split}
+		\psi = U_0 \left(1-\frac{a^2}{r^2}\right) r \sin\theta\\
+		\phi = U_0 \left(1+\frac{a^2}{r^2}\right)r \cos\theta
+	\end{split}
+\end{equation*}
+
+The velocity can be written as
+\begin{equation*}
+	\begin{split}
+		 v_r &= \frac{\partial \phi}{\partial r} = \frac{1}{r}\frac{\partial \psi}{\partial \theta }=U_0\left(1-\frac{a^2}{r^2}\right)\cos\theta\\
+		 v_\theta &= \frac{1}{r}\frac{\partial \phi}{\partial \theta} = -\frac{\partial \psi}{\partial r} = - U_0\left(1+\frac{a^2}{r^2}\right) r \sin\theta
+	\end{split}
+\end{equation*}
+On the surface of the cylinder ($a=r$), we get $v_r = 0$ and $v_\theta = 2a \sin\theta$. This is okay, as the flow is assumed to be inviscid. 
+
+To calculate the pressure $p_s$ on the surface, we use newton's second law:
+\begin{equation*}
+	\begin{split}
+		\rho \frac{\partial \phi}{\partial t}+ \frac{\rho}{2}|\vec v|^2 + p + \cancel{\rho gz}^{\text{negl.}} &= const\\
+		p_0 + \frac 1 2\rho U_0^2 &= p_s + \frac 12 \rho v_{\theta}^2\\
+		\implies p_s&=p_0 + \frac 12 \rho U_0^2\left(1-4\sin^2\theta\right)
+	\end{split}
+\end{equation*}
+\paragraph{Drag and Lift Forces}
+\begin{equation*}
+	\begin{split}
+		F_L &= F_y = -\int_0^{2\pi}p_s\sin\theta a\,d\theta = 0\implies\text{no lift}\\
+		F_D & =F_x =  \int_0^{2\pi}p_s\cos\theta a \,d\theta = 0 \implies \text{no drag}
+	\end{split}
+\end{equation*}
+The result of no drag is called d'Alembert's Paradox and is only true because we assume inviscid flow. For real-world scenarios, the effects of viscosity result in a non-zero drag force. 
+
+\subsubsection{Rotating Cylinder}
+In order to create lift, the up-down symmetry needs to be broken. Adding a vortex helps doing this.
+\begin{equation*}
+	\begin{split}
+		\psi &= U_0\left(1-\frac{a^2}{r^2}\right)r\sin\theta - \frac \Gamma {2\pi}\ln r\\
+		\phi &= U_0\left(1+\frac{a^2}{r^2}\right)r\sin\theta - \frac \Gamma {2\pi} r\\
+	\end{split}
+\end{equation*}
+On the surface ($r=a$), the velocity becomes:
+\begin{equation*}
+	\begin{split}
+		v_{r,s} = \frac{1}{r}\frac{\partial \psi}{\partial \theta}\Big|_{r=a} = 0\\
+		v_{\theta,s} &= -\frac{\partial \psi}{\partial r} \Big|_{r=a} = -2U_0 \sin\theta + \frac{\Gamma}{2\pi a}
+	\end{split}
+\end{equation*}
+At the stagnation point on the cylinder surface, 
+\begin{equation*}
+	\sin\theta_{sp} = \frac{\Gamma}{2\pi U_0 a}
+\end{equation*}
+This describes the following points:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{Sketches/rotating_cylinder_stagnation_points}
+	\caption{Munson et.al.}
+	\label{fig:rotatingcylinderstagnationpoints}
+\end{figure}
+The pressure on the surface is
+\begin{equation*}
+	p_s = p_1 + \frac 12 \rho U_0^2 \left(1-4\sin^2\theta + \frac{2\Gamma\sin\theta}{2\pi a U_0}-\frac{\Gamma^2}{4\pi^2 a^2 U_0^2}\right)
+\end{equation*}
+This still has symmetries around $\pi/2, 3\pi/2$, and therefore doesn't generate drag. However, the symmetry from $y$ to $-y$ is broken.
+This leads to the following lift force:
+\begin{equation*}
+	F_L = -\int_0^{2\pi} p_s \sin\theta a\,d\theta= -\frac{1}{2}\rho U_0^2\int_0^{2\pi} \frac{2\Gamma \sin\theta}{2\pi a U_0} - \frac{\Gamma^2}{4\pi^2 a^2 U_0^2}a\sin\theta \,d\theta = -\rho U_0 \Gamma
+\end{equation*}
+Which is the \textbf{Magnus Effect}:
+\begin{equation*}
+	\boxed{F_L = -\rho U_0 \Gamma}
+\end{equation*}
+The lift force (perpendicular to the flow direction) per "span" is given by $-\rho U_0 \Gamma$.
+When the flow comes from the left, $\Gamma$ must be negative (clockwise) in order for the lift to be positive.
 \subsection{Lift and drag on an Airfoil}
+\footnotesize{Munson chapter 9}
+
+An airplane flies at high Reynolds numbers, viscosity can be ignored. For inviscid potential flow and infinite wings (that can therefore be observed in 2D), then the general results:
+\begin{equation*}
+	\begin{aligned}
+		F_L &= -\rho U_0 \Gamma &&\textbf{lift per unit span}\\
+		F_D &= 0 && \textbf{d'Alembert's paradox}
+	\end{aligned}
+\end{equation*}
+
+For any closed curve around the airfoil:
+\begin{equation*}
+	\Gamma = \oint_c \vec v \cdot \vec{ds}
+\end{equation*}
+are valid for any shape of airfoil.\footnote{By the Kutta-Joukowski theorem} The Kutta-condition chooses the stagnation point to be pinned at the sharp feature on the trailing edge. This limits the infinite solutions resulting from inviscid flow to the solution chosen in nature, where viscosity is still important at high velocities very close to surfaces. Stalling is when the Kutta-condition can no longer be satisfied and no lift is generated.
+
