@@ -560,3 +560,120 @@ For any closed curve around the airfoil:
 \end{equation*}
 are valid for any shape of airfoil.\footnote{By the Kutta-Joukowski theorem} The Kutta-condition chooses the stagnation point to be pinned at the sharp feature on the trailing edge. This limits the infinite solutions resulting from inviscid flow to the solution chosen in nature, where viscosity is still important at high velocities very close to surfaces. Stalling is when the Kutta-condition can no longer be satisfied and no lift is generated.
 
+\section{Viscous Flow}
+Recall the equations for incompressible Newtonian fluids:
+\begin{equation*}
+\begin{split}
+		\rho \frac{\partial \vec v}{\partial t}+ \rho \vec v \cdot \nabla \vec v &= -\nabla p + \rho \vec g + \underbrace{\mu \nabla^2 \vec v }_{\text{Viscous term}}\\
+		\nabla \cdot \vec v &= 0
+\end{split}
+\end{equation*}
+Viscosity by itself implies the no-slip condition boundary condition at the walls: 
+\begin{equation*}
+	\vec v = \vec v_{wall}
+\end{equation*}
+
+The above equation is very hard to solve, they are non-linear and thus in general impossible to solve. In few specific cases, we can however find solutions to them.
+\subsection{Laminar shear flow between parallel plates}
+Consider two parallel plates at distance $h$, where one of them moves at velocity $v_0$. The downstream direction is $\hat x$. 
+
+The assumptions of laminar flow are made, which assumes that the solution is of the form $\vec v (\vec r,t)= u(y,t)\hat i$. It only has a downstream component and only depends on $y$, which is the wall-normal coordinate. 
+
+Under these assumptions, the non-linear term vanishes
+\begin{equation*}
+	\vec v \cdot \nabla \vec v = u(y,t)\frac{\partial}{\partial x}u(y,t)\hat i = \vec 0
+\end{equation*}
+
+Furthermore, we assume that there is a constant prescribed pressure gradient along $x$:
+\begin{equation*}
+	\frac{\partial p}{\partial x} = cte\qquad \frac{\partial p}{\partial z} = 0
+\end{equation*}
+plugging this into the continuity equation yields
+\begin{equation*}
+	\nabla \cdot \vec v = \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} + \frac{\partial w}{\partial z} = 0
+\end{equation*}
+The moment conservation equation results in
+\begin{equation*}
+	\begin{split}
+		\rho \frac{\partial u}{\partial t}\hat i + \vec 0 &= - \frac{\partial p}{\partial x}\hat i - \frac{\partial p}{\partial y}\hat j - \rho g\hat j + \mu \left(\frac{\partial^2 }{\partial x^2 }+\frac{\partial^2 }{\partial y^2 }+\frac{\partial^2 }{\partial z^2 }\right)u \hat i\\
+		\hat i: \qquad \rho \frac{\partial u}{\partial t}&=-\frac{\partial p}{\partial x}+ \mu \frac{\partial^2 }{\partial y^2}u\\
+		\hat j:\qquad 0 &= -\frac{\partial p}{\partial y}-\rho g\\
+		\hat k: \qquad 0 &= 0\\\\
+		\implies p &= -\rho g y + \frac{\partial p}{\partial x}x + C\\
+		&= -\rho g y + c
+	\end{split}
+\end{equation*}
+What is left to solve is
+\begin{equation*}
+	\rho \frac{\partial u}{\partial t} = \mu \frac{\partial ^2}{\partial y^2}u - \frac{\partial p}{\partial x}
+\end{equation*}
+We can recognise this as a diffusion equation for momentum density with diffusion coefficient $\mu/\rho = \nu$.
+
+\paragraph{Steady State Solutions}
+There are three possible combinations:
+\begin{itemize}
+	\setlength{\itemsep}{-5pt}
+	\item \textbf{plane Poiseuille flow} $u_0=0,\partial_xp \ne 0$\\
+	\item \textbf{plane Couette flow} $u_0\ne0 ,\partial_xp =0$\\
+	\item \textbf{mixed Couette flow} $u_0\ne0,\partial_xp \ne 0$
+\end{itemize}
+
+For each of these, we need to solve
+\begin{equation*}
+	\begin{cases}
+		0=\mu \frac{d^2u}{dy^2}- \frac{\partial p}{\partial x}\\
+		u(y=-h) = 0\\
+		u(y=h) = u_0
+	\end{cases}
+\end{equation*}
+Which results in 
+\begin{equation*}
+	\begin{split}
+		u &= \frac{1}{2\mu}\left(\frac{\partial p}{\partial x}\right) y^2 + C_1 y + C_2\\\implies
+		u(y)&=\frac{u_0}{2}\left(\frac{y}{h} + 1\right)+ \frac{1}{2\mu }\left(\frac{\partial p}{\partial x}\right)\left(y^2 -h^2\right)
+	\end{split}
+\end{equation*}
+
+The volumetric flow rate (per unit depth) is 
+\begin{equation*}
+	Q= \int_{-h}^h u\,dy = u_0 h- \frac{2}{\mu} \left(\frac{\partial p}{\partial x}\right)\frac{h^3}{3}
+\end{equation*}
+\paragraph{Time Dependant Solution}
+This can be solved exactly like the diffusion equation. 
+\subsection{Pipe Flow}
+Assume we have a cylindrical pipe or radius $R$. We impose a cylindrical coordinate system to write the assumptions:
+\begin{itemize}
+	\setlength{\itemsep}{-5pt}
+	\item incompressible,  Newtonian
+	\item laminar
+	\item steady
+	\item $\partial_z p = cte$ (incompressible)
+\end{itemize}
+
+From laminar and steady, we conclude
+\begin{equation*}
+	\begin{split}
+		\vec v = V_z (r)\hat z\\
+		\nabla \cdot \vec v = 0
+	\end{split}
+\end{equation*}
+the Navier-Stokes equations turn into
+\begin{equation*}
+	0 = -\partial_zp + \mu \left(\frac 1r \frac{\partial }{\partial r}\left(r \frac{\partial V_z}{\partial r}\right)\right)\\
+	\implies V_z = \frac{1}{4\mu}\left(\frac{\partial p}{\partial z}\right) r^2+ c_1\ln r + c_2
+\end{equation*}
+Through the boundary conditions
+\begin{equation*}
+	\begin{cases}
+		V_z|_{r=R} = 0&(1)\\
+		|v_z|_{r=0}< \infty &(2)
+	\end{cases}
+\end{equation*}
+we conclude that by $(1)$ $c_1 = 0$ and by $(2)$:
+\begin{equation*}
+	c_2 = -\frac{1}{4\mu}\left(\frac{\partial p}{\partial z}\right)R^2
+\end{equation*}
+and therefore
+\begin{equation*}
+\boxed{	V_z = \frac{1}{4\mu}\left(\frac{\partial p}{\partial z}\right)(r^2-R^2)}
+\end{equation*}
